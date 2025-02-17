@@ -252,15 +252,16 @@ class _SlidableState extends State<Slidable> with TickerProviderStateMixin, Auto
       children: <Widget>[
         if (pane != null)
           Positioned.fill(
+            left: pane.left,
+            right: pane.right,
+            bottom: pane.bottom,
+            top: pane.top,
             child: ClipRect(
               clipper: _SlidableClipper(
                 axis: widget.direction,
                 controller: controller,
               ),
-              child: Padding(
-                padding: EdgeInsets.only(left: pane.spacing),
-                child: pane,
-              ),
+              child: pane,
             ),
           ),
         content,

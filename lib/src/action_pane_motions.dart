@@ -18,7 +18,6 @@ class BehindMotion extends StatelessWidget {
   Widget build(BuildContext context) {
     final paneData = ActionPane.of(context)!;
     return Flex(
-      spacing: 12,
       direction: paneData.direction,
       children: paneData.children,
     );

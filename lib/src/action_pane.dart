@@ -53,6 +53,7 @@ class ActionPane extends StatefulWidget {
     this.openThreshold,
     this.closeThreshold,
     required this.children,
+    this.spacing = 0,
   })  : assert(extentRatio > 0 && extentRatio <= 1),
         assert(
             openThreshold == null || (openThreshold > 0 && openThreshold < 1)),
@@ -94,6 +95,9 @@ class ActionPane extends StatefulWidget {
 
   /// The actions for this pane.
   final List<Widget> children;
+
+  /// The spacing between the tile and pane.
+  final double spacing;
 
   @override
   _ActionPaneState createState() => _ActionPaneState();

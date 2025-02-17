@@ -119,15 +119,13 @@ class Slidable extends StatefulWidget {
   /// ```
   /// {@end-tool}
   static SlidableController? of(BuildContext context) {
-    final scope = context
-        .getElementForInheritedWidgetOfExactType<_SlidableControllerScope>()
-        ?.widget as _SlidableControllerScope?;
+    final scope = context.getElementForInheritedWidgetOfExactType<_SlidableControllerScope>()?.widget
+        as _SlidableControllerScope?;
     return scope?.controller;
   }
 }
 
-class _SlidableState extends State<Slidable>
-    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class _SlidableState extends State<Slidable> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late final SlidableController controller;
   late Animation<Offset> moveAnimation;
   late bool keepPanesOrder;
@@ -187,9 +185,8 @@ class _SlidableState extends State<Slidable>
 
   void updateIsLeftToRight() {
     final textDirection = Directionality.of(context);
-    controller.isLeftToRight = widget.direction == Axis.vertical ||
-        !widget.useTextDirection ||
-        textDirection == TextDirection.ltr;
+    controller.isLeftToRight =
+        widget.direction == Axis.vertical || !widget.useTextDirection || textDirection == TextDirection.ltr;
   }
 
   void handleActionPanelTypeChanged() {
@@ -209,14 +206,12 @@ class _SlidableState extends State<Slidable>
     moveAnimation = controller.animation.drive(
       Tween<Offset>(
         begin: Offset.zero,
-        end: widget.direction == Axis.horizontal
-            ? Offset(end, 0)
-            : Offset(0, end),
+        end: widget.direction == Axis.horizontal ? Offset(end, 0) : Offset(0, end),
       ),
     );
   }
 
-  Widget? get actionPane {
+  ActionPane? get actionPane {
     switch (controller.actionPaneType.value) {
       case ActionPaneType.start:
         return startActionPane;
@@ -252,17 +247,20 @@ class _SlidableState extends State<Slidable>
         child: widget.child,
       ),
     );
-
+    final pane = actionPane;
     content = Stack(
       children: <Widget>[
-        if (actionPane != null)
+        if (pane != null)
           Positioned.fill(
             child: ClipRect(
               clipper: _SlidableClipper(
                 axis: widget.direction,
                 controller: controller,
               ),
-              child: actionPane,
+              child: Padding(
+                padding: EdgeInsets.only(left: pane.spacing),
+                child: pane,
+              ),
             ),
           ),
         content,
@@ -286,8 +284,7 @@ class _SlidableState extends State<Slidable>
             child: ActionPaneConfiguration(
               alignment: actionPaneAlignment,
               direction: widget.direction,
-              isStartActionPane:
-                  controller.actionPaneType.value == ActionPaneType.start,
+              isStartActionPane: controller.actionPaneType.value == ActionPaneType.start,
               child: _SlidableControllerScope(
                 controller: controller,
                 child: content,
